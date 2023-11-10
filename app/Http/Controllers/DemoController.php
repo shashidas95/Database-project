@@ -11,12 +11,13 @@ class DemoController extends Controller
     function DemoAction()
     {
         $result = DB::table('products')
-            ->join('categories', function(JoinClause $join){
+            ->join('categories', function (JoinClause $join) {
+                $join->on('products.category_id', '=', 'categories.id')
+                    ->where('products.price', '>', 2000);
+            })
+            ->get();;
 
-            $join->on('products.category_id', '=', 'categories.id');
-            }
-            ->join('brands', 'products.brand_id', '=', 'brands.id')
-            ->get();
+
         return $result;
     }
 }
